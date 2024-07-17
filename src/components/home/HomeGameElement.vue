@@ -26,7 +26,6 @@ export default {
     },
     gameImage(path) {
       const img = new URL(`../../assets/img/games/backup/${path}.webp`, import.meta.url).href
-      console.log(img)
       return img
     }
   },

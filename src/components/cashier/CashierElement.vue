@@ -9,7 +9,7 @@
         <img src="@/assets/img/knight.png" />
       </div>
       <div class="inner-image">
-        <img v-bind:src="'@/assets/img/cashier/' + method + '.png'" />
+        <img v-bind:src="getImage(method)" />
       </div>
       <div class="inner-text">
         <div class="text-method">{{ modalGetMethod }}</div>
@@ -55,6 +55,12 @@ export default {
       }
 
       return type
+    }
+  },
+  methods: {
+    getImage(path) {
+      const img = new URL(`../../assets/img/cashier/${path}.png`, import.meta.url).href
+      return img
     }
   }
 }
