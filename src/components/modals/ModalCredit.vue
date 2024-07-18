@@ -11,9 +11,7 @@
         <button
           v-on:click="modalAmountButton(0)"
           v-bind:class="{
-            'button-active':
-              [50000, 35000, 20000, 10000, 5000, 2000].includes(modalAmount) !==
-              true,
+            'button-active': [50000, 35000, 20000, 10000, 5000, 2000].includes(modalAmount) !== true
           }"
         >
           <div class="button-inner">Custom</div>
@@ -80,11 +78,7 @@
             ROBUX AMOUNT
           </div>
         </div>
-        <input
-          v-model="modalAmount"
-          v-on:input="modalValidateInput"
-          type="text"
-        />
+        <input v-model="modalAmount" v-on:input="modalValidateInput" type="text" />
       </div>
     </div>
     <div class="credit-button">
@@ -95,7 +89,7 @@
       >
         <div class="button-inner">
           <transition name="fade" mode="out-in">
-            <ButtonLoading v-if="cashierCreditData.loading" key="loading" />
+            <ButtonLoading v-if="cashierCashappData.loading" key="loading" />
             <div v-else class="inner-content" key="content">
               BUY FOR ${{ Number(modalGetAmountFiat).toFixed(2) }}
             </div>
@@ -104,19 +98,18 @@
       </button>
     </div>
 
-    <div class="cashapp-content" v-if="cashierCreditData.cashtag">
+    <div class="cashapp-content" v-if="cashierCashappData.cashtag">
       <div class="address-title">
-        Make payment to the cashtag and ensure to use the note for a successful
-        deposit
+        Make payment to the cashtag and ensure to use the note for a successful deposit
       </div>
       <div class="cashapp-group">
         <div class="cashapp-inner">
           <div class="cashapp-key">CashApp Tag:</div>
-          <div class="cashapp-value">{{ cashierCreditData.cashtag }}</div>
+          <div class="cashapp-value">{{ cashierCashappData.cashtag }}</div>
         </div>
         <div class="cashapp-inner">
           <div class="cashapp-key">CashApp Note:</div>
-          <div class="cashapp-value">{{ cashierCreditData.note }}</div>
+          <div class="cashapp-value">{{ cashierCashappData.note }}</div>
         </div>
       </div>
       <div class="deposit-address">
@@ -138,9 +131,7 @@
                         v-if="socketSendLoading === 'CheckCreditDeposit'"
                         key="loading"
                       />
-                      <div v-else class="inner-content" key="content">
-                        Claim
-                      </div>
+                      <div v-else class="inner-content" key="content">Claim</div>
                     </transition>
                   </div>
                 </button>
@@ -152,77 +143,73 @@
     </div>
 
     <div class="credit-info">
-      Card payments are processed through a secure third-party processor.
-      RBLXRoll does not store or process your card details.
+      Card payments are processed through a secure third-party processor. RBLXRoll does not store or
+      process your card details.
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-import ButtonLoading from "@/components/ButtonLoading";
+import { mapGetters, mapActions } from 'vuex'
+import ButtonLoading from '@/components/ButtonLoading'
 
 export default {
-  name: "ModalCredit",
+  name: 'ModalCredit',
   components: {
-    ButtonLoading,
+    ButtonLoading
   },
   data() {
     return {
       modalAmount: 0,
-      payment_link: "",
-    };
+      payment_link: ''
+    }
   },
   methods: {
     ...mapActions([
-      "notificationShow",
-      "modalsSetShow",
-      "cashierSendCreditDepositSocket",
-      "cashierCheckCreditDepositSocket",
+      'notificationShow',
+      'modalsSetShow',
+      'cashierSendCashappDepositSocket',
+      'cashierCheckCreditDepositSocket'
     ]),
     modalValidateInput() {
       this.modalAmount = Number(
         this.modalAmount
-          .replace(",", "")
-          .replace(".", "")
-          .replace(/[^\d.]/g, "")
-      );
+          .replace(',', '')
+          .replace('.', '')
+          .replace(/[^\d.]/g, '')
+      )
     },
     modalBackButton() {
-      this.modalsSetShow(null);
+      this.modalsSetShow(null)
       setTimeout(() => {
-        this.modalsSetShow("Cashier");
-      }, 200);
+        this.modalsSetShow('Cashier')
+      }, 200)
     },
     modalAmountButton(amount) {
-      this.modalAmount = amount;
+      this.modalAmount = amount
     },
     modalClaimButton() {
-      const data = { payment_link: this.payment_link };
-      this.cashierCheckCreditDepositSocket(data);
+      const data = { payment_link: this.payment_link }
+      this.cashierCheckCreditDepositSocket(data)
     },
     modalDepositButton() {
-      const data = { amount: Math.floor(this.modalAmount * 1000) };
-      this.cashierSendCreditDepositSocket(data);
-    },
+      const data = { amount: Math.floor(this.modalAmount * 1000) }
+      // this.cashierSendCashappDepositSocket(data)
+    }
   },
   computed: {
-    ...mapGetters(["socketSendLoading", "modalsData", "cashierCreditData"]),
+    ...mapGetters(['socketSendLoading', 'modalsData', 'cashierCashappData']),
     modalGetAmountFiat() {
-      let amount = parseFloat((this.modalAmount / 1000) * 3).toFixed(2);
+      let amount = parseFloat((this.modalAmount / 1000) * 3).toFixed(2)
 
-      if (
-        this.modalAmount === null ||
-        isNaN(this.modalAmount) ||
-        this.modalAmount <= 0
-      ) {
-        amount = 0;
+      if (this.modalAmount === null || isNaN(this.modalAmount) || this.modalAmount <= 0) {
+        amount = 0
       }
 
-      return amount;
-    },
-  },
-};
+      return amount
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -316,7 +303,7 @@ export default {
 }
 
 .modal-credit .amount-buttons button:before {
-  content: "";
+  content: '';
   width: 100%;
   height: 100%;
   position: absolute;
@@ -341,27 +328,14 @@ export default {
   font-size: 16px;
   font-weight: 800;
   color: #ffffff;
-  background: linear-gradient(
-      225deg,
-      rgba(0, 255, 194, 0.01) 0%,
-      rgba(0, 170, 109, 0.01) 100%
-    ),
+  background: linear-gradient(225deg, rgba(0, 255, 194, 0.01) 0%, rgba(0, 170, 109, 0.01) 100%),
     #10253c;
   box-shadow: 0px 5px 50px 0px rgba(0, 0, 0, 0.25) inset;
 }
 
 .modal-credit .amount-buttons button.button-active .button-inner {
-  background: linear-gradient(
-      225deg,
-      rgba(0, 255, 194, 0.01) 0%,
-      rgba(0, 170, 109, 0.01) 100%
-    ),
-    radial-gradient(
-      80% 80% at 50% 50%,
-      rgba(0, 255, 194, 0.35) 0%,
-      rgba(0, 0, 0, 0) 100%
-    ),
-    #10253c;
+  background: linear-gradient(225deg, rgba(0, 255, 194, 0.01) 0%, rgba(0, 170, 109, 0.01) 100%),
+    radial-gradient(80% 80% at 50% 50%, rgba(0, 255, 194, 0.35) 0%, rgba(0, 0, 0, 0) 100%), #10253c;
 }
 
 .modal-credit .amount-buttons button .button-inner img {
@@ -380,7 +354,7 @@ export default {
 }
 
 .modal-credit .amount-input:before {
-  content: "";
+  content: '';
   width: 100%;
   height: 100%;
   position: absolute;
@@ -516,7 +490,7 @@ export default {
 }
 
 .modal-credit .input-info:before {
-  content: "";
+  content: '';
   width: 100%;
   height: 100%;
   position: absolute;
@@ -537,7 +511,7 @@ export default {
 }
 
 .modal-credit .input-info:after {
-  content: "";
+  content: '';
   width: calc(100% - 2px);
   height: calc(100% - 2px);
   position: absolute;
@@ -618,17 +592,11 @@ export default {
   );
 }
 
-.modal-credit
-  .credit-button
-  button.button-deposit
-  .button-loading.fade-leave-active {
+.modal-credit .credit-button button.button-deposit .button-loading.fade-leave-active {
   transition: opacity 0.5s;
 }
 
-.modal-credit
-  .credit-button
-  button.button-deposit
-  .button-loading.fade-leave-to {
+.modal-credit .credit-button button.button-deposit .button-loading.fade-leave-to {
   opacity: 0;
 }
 
@@ -639,17 +607,11 @@ export default {
   color: #ffffff;
 }
 
-.modal-credit
-  .credit-button
-  button.button-deposit
-  .inner-content.fade-enter-active {
+.modal-credit .credit-button button.button-deposit .inner-content.fade-enter-active {
   transition: opacity 0.5s;
 }
 
-.modal-credit
-  .credit-button
-  button.button-deposit
-  .inner-content.fade-enter-from {
+.modal-credit .credit-button button.button-deposit .inner-content.fade-enter-from {
   opacity: 0;
 }
 

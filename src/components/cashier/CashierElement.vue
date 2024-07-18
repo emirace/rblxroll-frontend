@@ -89,6 +89,10 @@ export default {
   background: linear-gradient(90deg, #1ede53 0%, rgba(30, 222, 83, 0.3) 100%);
 }
 
+.cashier-element.element-cashapp {
+  background: linear-gradient(90deg, #1ede53 0%, rgba(30, 222, 83, 0.3) 100%);
+}
+
 .cashier-element.element-limiteds {
   background: linear-gradient(90deg, #5742d4 0%, rgba(87, 66, 212, 0.3) 100%);
 }
@@ -159,6 +163,24 @@ export default {
 }
 
 .cashier-element.element-robux .element-inner {
+  background: radial-gradient(
+      650% 160% at 100% 25%,
+      rgba(37, 20, 0, 0.27) 0%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    linear-gradient(0deg, rgba(30, 222, 83, 0.15) 0%, rgba(30, 222, 83, 0.15) 100%),
+    linear-gradient(90deg, rgba(30, 222, 83, 0.62) -30%, rgba(0, 0, 0, 0) 180%),
+    linear-gradient(265deg, #001626 0%, rgba(12, 52, 82, 0) 150%),
+    repeating-linear-gradient(
+      -55deg,
+      transparent,
+      transparent 5px,
+      rgba(2, 21, 36, 0.12) 5px,
+      rgba(2, 21, 36, 0.12) 10px
+    );
+}
+
+.cashier-element.element-cashapp .element-inner {
   background: radial-gradient(
       650% 160% at 100% 25%,
       rgba(37, 20, 0, 0.27) 0%,
@@ -439,6 +461,10 @@ export default {
 }
 
 .cashier-element.element-robux .text-method {
+  color: #1ede53;
+}
+
+.cashier-element.element-cashapp .text-method {
   color: #1ede53;
 }
 

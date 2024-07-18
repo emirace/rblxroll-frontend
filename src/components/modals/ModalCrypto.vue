@@ -16,7 +16,7 @@
           </svg>
         </div>
       </button>
-      <img v-bind:src="'@/assets/img/cashier/' + modalsData.currency + '.png'" />
+      <img v-bind:src="getImage(modalsData.currency)" />
       <div class="header-text">
         {{ modalGetName }}
         <div class="text-amount">
@@ -66,6 +66,11 @@ export default {
       setTimeout(() => {
         this.modalsSetShow('Cashier')
       }, 200)
+    },
+
+    getImage(path) {
+      const img = new URL(`../../assets/img/cashier/${path}.png`, import.meta.url).href
+      return img
     }
   },
   computed: {

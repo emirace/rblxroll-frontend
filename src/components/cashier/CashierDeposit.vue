@@ -38,7 +38,7 @@
         v-bind:enabled="generalSettings.credit.deposit.enabled"
       />
       <CashierElement
-        v-on:click.native="modalCreditButton()"
+        v-on:click.native="modalCashappButton()"
         type="fiat"
         method="cashapp"
         v-bind:enabled="generalSettings.credit.deposit.enabled"
@@ -151,6 +151,14 @@ export default {
 
       setTimeout(() => {
         this.modalsSetShow('Credit')
+      }, 200)
+    },
+    modalCashappButton() {
+      this.modalsSetShow(null)
+      this.modalsSetData({ typeCashier: 'deposit' })
+
+      setTimeout(() => {
+        this.modalsSetShow('Cashapp')
       }, 200)
     },
     modalCryptoButton(currency) {

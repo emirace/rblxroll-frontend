@@ -132,7 +132,6 @@ const actions = {
   },
   socketListenGeneral({ getters, dispatch }) {
     getters.socketGeneral.on('init', (data) => {
-      console.log('general init dada', data)
       dispatch('generalSocketInit', data)
       dispatch('chatSocketInit', data)
     })
