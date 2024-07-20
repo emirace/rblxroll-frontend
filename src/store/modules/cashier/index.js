@@ -191,7 +191,7 @@ const actions = {
       }
     }
   },
-  cashierSocketCryptoTransaction({ getters, commit }, data) {
+  cashierSocketCryptoTransaction({ getters, commit, dispatch }, data) {
     if (data.transaction.state === 'completed') {
       dispatch('notificationShow', {
         type: 'success',
@@ -424,6 +424,31 @@ const actions = {
     getters.socketCashier.emit('sendSteamDeposit', data, (res) => {
       if (res.success === true) {
         window.location.href = res.transaction.data.providerUrl
+      } else {
+        dispatch('notificationShow', res.error)
+      }
+
+      commit('socket_set_send_loading', null)
+    })
+  },
+  cashierSendCreditDepositSocket({ getters, commit, dispatch }, data) {
+    if (getters.socketCashier === null || getters.cashierCashappData.loading === true) {
+      return
+    }
+
+    if (!data.amount || isNaN(data.amount)) {
+      dispatch('notificationShow', {
+        type: 'error',
+        message: 'Enter a valid amount'
+      })
+      return
+    }
+
+    commit('socket_set_send_loading', 'CreditDeposit')
+
+    getters.socketCashier.emit('sendCreditDeposit', data, (res) => {
+      if (res.success === true) {
+        window.location.href = res.url
       } else {
         dispatch('notificationShow', res.error)
       }

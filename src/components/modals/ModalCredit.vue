@@ -89,57 +89,13 @@
       >
         <div class="button-inner">
           <transition name="fade" mode="out-in">
-            <ButtonLoading v-if="cashierCashappData.loading" key="loading" />
+            <ButtonLoading v-if="socketSendLoading === 'CreditDeposit'" key="loading" />
             <div v-else class="inner-content" key="content">
               BUY FOR ${{ Number(modalGetAmountFiat).toFixed(2) }}
             </div>
           </transition>
         </div>
       </button>
-    </div>
-
-    <div class="cashapp-content" v-if="cashierCashappData.cashtag">
-      <div class="address-title">
-        Make payment to the cashtag and ensure to use the note for a successful deposit
-      </div>
-      <div class="cashapp-group">
-        <div class="cashapp-inner">
-          <div class="cashapp-key">CashApp Tag:</div>
-          <div class="cashapp-value">{{ cashierCashappData.cashtag }}</div>
-        </div>
-        <div class="cashapp-inner">
-          <div class="cashapp-key">CashApp Note:</div>
-          <div class="cashapp-value">{{ cashierCashappData.note }}</div>
-        </div>
-      </div>
-      <div class="deposit-address">
-        <div class="address-title">Enter your payment receipt url</div>
-        <div class="address-input">
-          <transition name="fade" mode="out-in">
-            <div class="input-content" key="data">
-              <input v-model="payment_link" type="text" />
-
-              <div class="credit-button">
-                <button
-                  v-on:click="modalClaimButton()"
-                  class="button-deposit"
-                  v-bind:disabled="socketSendLoading !== null"
-                >
-                  <div class="button-inner">
-                    <transition name="fade" mode="out-in">
-                      <ButtonLoading
-                        v-if="socketSendLoading === 'CheckCreditDeposit'"
-                        key="loading"
-                      />
-                      <div v-else class="inner-content" key="content">Claim</div>
-                    </transition>
-                  </div>
-                </button>
-              </div>
-            </div>
-          </transition>
-        </div>
-      </div>
     </div>
 
     <div class="credit-info">
@@ -165,12 +121,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions([
-      'notificationShow',
-      'modalsSetShow',
-      'cashierSendCashappDepositSocket',
-      'cashierCheckCreditDepositSocket'
-    ]),
+    ...mapActions(['notificationShow', 'modalsSetShow', 'cashierSendCreditDepositSocket']),
     modalValidateInput() {
       this.modalAmount = Number(
         this.modalAmount
@@ -188,13 +139,9 @@ export default {
     modalAmountButton(amount) {
       this.modalAmount = amount
     },
-    modalClaimButton() {
-      const data = { payment_link: this.payment_link }
-      this.cashierCheckCreditDepositSocket(data)
-    },
     modalDepositButton() {
       const data = { amount: Math.floor(this.modalAmount * 1000) }
-      // this.cashierSendCashappDepositSocket(data)
+      this.cashierSendCreditDepositSocket(data)
     }
   },
   computed: {
