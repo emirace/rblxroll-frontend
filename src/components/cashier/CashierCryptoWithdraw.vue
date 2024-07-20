@@ -2,7 +2,7 @@
   <div class="cashier-crypto-withdraw">
     <div class="withdraw-amount">
       <div class="amount-header">
-        <img v-bind:src="'@/assets/img/cashier/' + modalsData.currency + '.png'" />
+        <img v-bind:src="getImage(modalsData.currency)" />
         {{ cashierGetName }}
       </div>
       <p>
@@ -34,7 +34,7 @@
               key="loading"
             ></div>
             <div v-else class="element-content" key="data">
-              <img v-bind:src="'@/assets/img/cashier/' + modalsData.currency + '.png'" />
+              <img v-bind:src="getImage(modalsData.currency)" />
               <input v-model="cashierCryptoAmount" v-on:input="cashierCryptoInput" type="text" />
             </div>
           </transition>
@@ -140,6 +140,11 @@ export default {
         address: this.cashierAddress
       }
       this.cashierSendCryptoWithdrawDepositSocket(data)
+    },
+
+    getImage(path) {
+      const img = new URL(`../../assets/img/cashier/${path}.png`, import.meta.url).href
+      return img
     }
   },
   computed: {

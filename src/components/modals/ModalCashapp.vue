@@ -173,7 +173,7 @@
               ></div>
               <div v-else class="cashapp-sub">
                 <div class="cashapp-title">Date Created</div>
-                <div class="cashapp-value">Cashapp</div>
+                <div class="cashapp-value">{{ cashierCashappData.createdAt }}</div>
               </div>
             </transition>
           </div>
@@ -251,13 +251,15 @@ import { mapGetters, mapActions } from 'vuex'
 import CashierCryptoDeposit from '@/components/cashier/CashierCryptoDeposit'
 import CashierCryptoWithdraw from '@/components/cashier/CashierCryptoWithdraw'
 import QRCode from '@/components/QRCode'
+import ButtonLoading from '@/components/ButtonLoading'
 
 export default {
   name: 'ModalCashapp',
   components: {
     CashierCryptoDeposit,
     CashierCryptoWithdraw,
-    QRCode
+    QRCode,
+    ButtonLoading
   },
   data() {
     return {
@@ -275,7 +277,8 @@ export default {
       'notificationShow',
       'modalsSetShow',
       'modalsSetData',
-      'cashierSendCashappDepositSocket'
+      'cashierSendCashappDepositSocket',
+      'cashierCheckCashappDepositSocket'
     ]),
     modalBackButton() {
       this.modalsSetShow(null)
@@ -316,7 +319,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['modalsData', 'cashierCashappData']),
+    ...mapGetters(['modalsData', 'cashierCashappData', 'socketSendLoading']),
     formattedTime() {
       const minutes = Math.floor(this.countdownTime / 60)
       const seconds = this.countdownTime % 60

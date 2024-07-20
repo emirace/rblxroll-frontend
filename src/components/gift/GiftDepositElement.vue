@@ -1,13 +1,19 @@
 <template>
   <a target="_blank" class="gift-deposit-element">
-    <img v-bind:src="'@/assets/img/cashier/gift/gift_' + amount + '.webp'" />
+    <img v-bind:src="getImage(amount)" />
   </a>
 </template>
 
 <script>
 export default {
   name: 'GiftDepositElement',
-  props: ['amount']
+  props: ['amount'],
+  methods: {
+    getImage(path) {
+      const img = new URL(`../../assets/img/cashier/gift/gift_${path}.webp`, import.meta.url).href
+      return img
+    }
+  }
 }
 </script>
 

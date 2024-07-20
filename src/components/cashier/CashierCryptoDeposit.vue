@@ -14,7 +14,7 @@
       </div>
       <div class="info-text">
         <div class="text-header">
-          <img v-bind:src="'@/assets/img/cashier/' + modalsData.currency + '.png'" />
+          <img v-bind:src="getImage(modalsData.currency)" />
           {{ cashierGetName }}
         </div>
         <p>
@@ -55,7 +55,7 @@
               key="loading"
             ></div>
             <div v-else class="element-content" key="data">
-              <img v-bind:src="'@/assets/img/cashier/' + modalsData.currency + '.png'" />
+              <img v-bind:src="getImage(modalsData.currency)" />
               <input v-model="cashierCryptoAmount" v-on:input="modalCryptoInput" type="text" />
             </div>
           </transition>
@@ -160,6 +160,10 @@ export default {
         type: 'success',
         message: 'Copied to your clipboard.'
       })
+    },
+    getImage(path) {
+      const img = new URL(`../../assets/img/cashier/${path}.png`, import.meta.url).href
+      return img
     }
   },
   computed: {

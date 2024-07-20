@@ -28,7 +28,8 @@ const state = {
     note: null,
     loading: false,
     show: false,
-    id: ''
+    id: '',
+    createdAt: null
   }
 }
 
@@ -129,6 +130,7 @@ const mutations = {
     state.cashierCashappData.cashtag = data.cashtag
     state.cashierCashappData.note = data.note
     state.cashierCashappData.id = data.id
+    state.cashierCashappData.createdAt = data.createdAt
   },
   cashier_set_crypto_data_loading(state, status) {
     state.cashierCryptoData.loading = status

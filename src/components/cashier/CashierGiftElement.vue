@@ -1,13 +1,19 @@
 <template>
   <a target="_blank" class="cashier-gift-element">
-    <img v-bind:src="'@/assets/img/cashier/gift/gift_' + amount + '.png'" />
+    <img v-bind:src="getImage(amlunt)" />
   </a>
 </template>
 
 <script>
 export default {
   name: 'CashierGiftElement',
-  props: ['amount']
+  props: ['amount'],
+  methods: {
+    getImage(path) {
+      const img = new URL(`../../assets/img/cashier/gift/gift_${amount}.png`, import.meta.url).href
+      return img
+    }
+  }
 }
 </script>
 
